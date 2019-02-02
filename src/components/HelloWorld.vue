@@ -1,58 +1,94 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div>
+        <b-container>
+            <p>Nilai Anda = {{ nilai * 25 }}</p>
+            <div role="tablist">
+                <b-card v-for="(item,index) in items" no-body class="m-1" :key="item.question">
+                    <b-card-header header-tag="header" class="p-1" role="tab">
+                        <b-btn v-b-toggle.collapse3  type="button" v-b-toggle="'accordion-'+ index" variant="info" v-on:click="setPosition(index)">{{ 'Soal Nomor ' + (index+1) }}</b-btn>
+                    </b-card-header>
+                    <b-collapse v-bind:id="'accordion-'+index" visible accordion="my-accordion" role="tabpanel">
+                        <b-card-body>
+                          <div v-if="item.btn_click">
+                            <p class="card-text">{{ item.question }}</p>                            
+                                <b-form-group>
+                                    <b-form-radio-group v-model="item.clicked"
+                                                        :options="item.answer"
+                                                        name="radioInline">
+                                    </b-form-radio-group>
+                                </b-form-group>
+                                <b-button variant="success" v-on:click="checkAnswer">Submit</b-button>
+                          </div>
+                          <div v-else>{{ "Sudah Dijawab" }}</div>                          
+                        </b-card-body>
+                    </b-collapse>
+                </b-card>
+            </div>
+        </b-container>
+    </div>
 </template>
-
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data: function() {
+    return {      
+      nilai: 0,
+      position: 0,      
+      items:[{
+        question: '1. Nama Studio Terkaya Didunia ?',
+        btn_click: true,
+        clicked: String,        
+        answer: [
+          { text: 'Sony Picture Entertainment', value: 'a'},
+          { text: 'Universal Studios', value: 'b'},
+          { text: 'DC Comics', value: 'c'},
+          { text: 'Ghibli Studios', value: 'd'},
+        ],
+        jawaban: 'b',
+      },{
+        question: '2. Nama OS Android Terbaru ?',
+        btn_click: true,
+        clicked: String,
+        answer: [
+          { text: 'Marshmellow', value: 'a'},
+          { text: 'Nougat', value: 'b'},
+          { text: 'Oreo', value: 'c'},
+          { text: 'Pai Cake', value: 'd'},
+        ],
+        jawaban: 'c',
+      },{
+        question: '3. Salah Satu Platform Game Terkaya ?',
+        btn_click: true,
+        clicked: String,
+        answer: [
+          { text: 'Microsoft', value: 'a'},
+          { text: 'Netease', value: 'b'},
+          { text: 'Moonton', value: 'c'},
+          { text: 'Tencent Holding', value: 'd'},
+        ],
+        jawaban: 'a',
+      },{
+        question: '4. Siapa Pendiri Perushaan Steam ?',
+        btn_click: true,
+        clicked: String,
+        answer: [
+          { text: 'Michael Grzesiek', value: 'a'},
+          { text: 'Justin Ortiz', value: 'b'},
+          { text: 'Artour Babaev', value: 'c'},
+          { text: 'Gabe Newell', value: 'd'},
+        ],
+        jawaban: 'd',
+      },],
+    }    
+  },
+  methods: {
+    setPosition(i){
+        this.position = i;
+            },   
+    checkAnswer(){
+      this.items[this.position].btn_click = false;      
+      if(this.items[this.position].jawaban === this.items[this.position].clicked){this.nilai++;}
+    },    
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
