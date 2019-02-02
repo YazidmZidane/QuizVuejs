@@ -1,8 +1,8 @@
 # quizvue
 
-# download / clone project
+## download / clone project
 
-# install bootsrap vue js
+## install bootsrap vue js
 ```
 install di sini https://bootstrap-vue.js.org
 ```
